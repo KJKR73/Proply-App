@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "191100261346",
+    "firebase_url": "https://ethnicity-recog-app.firebaseio.com",
+    "project_id": "ethnicity-recog-app",
+    "storage_bucket": "ethnicity-recog-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191100261346:android:f08235ef8bf989efd55fbb",
+        "android_client_info": {
+          "package_name": "com.kjs.ethinicty_recognition_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191100261346-mg227u3289vo1vpomkidvilli0tlhd17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU7PVwQe5QLLzUhsz6LdX3RHllyuKgw1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191100261346-mg227u3289vo1vpomkidvilli0tlhd17.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
