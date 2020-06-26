@@ -9,6 +9,15 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+
+  final AuthService _auth = AuthService();
+  final _formkey = GlobalKey<FormState>();
+
+  String email = "";
+  String password = "";
+  String error = "";
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +32,7 @@ class _RegisterState extends State<Register> {
         ),
         padding: EdgeInsets.only(top: 100, left: 20, right: 20),
         child: Form(
+          key: _formkey,
             child: Column(
             children: <Widget>[
               Container(
@@ -41,12 +51,15 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                validator: (val) => val.isEmpty ? 'Enter a valid email' : null,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
                 ),
                 decoration: inputDecorationForm.copyWith(hintText: 'Enter Email'),
-                onChanged: (val) {},
+                onChanged: (val) {
+                  this.email = val;
+                },
               ),
               SizedBox(height: 20.0),
               TextFormField(
@@ -55,7 +68,9 @@ class _RegisterState extends State<Register> {
                   fontSize: 16.0,
                 ),
                 decoration: inputDecorationForm.copyWith(hintText: 'Enter Password'),
-                onChanged: (val) {},
+                onChanged: (val) {
+                  this.password = val;
+                },
               ),
               SizedBox(height: 20.0),
               ButtonTheme(
@@ -65,14 +80,37 @@ class _RegisterState extends State<Register> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_formkey.currentState.validate()) {
+                      setState(() {
+                        loading = true;
+                      });
+                      dynamic result = await _auth.registerEmailPassword(this.email, this.password);
+                      if (result == null) {
+                        setState(() {
+                          this.error = "Enter a valid Email or Password";
+                          loading = false;
+                        });
+                      }
+                    }
+                  },
                   color: Colors.brown[700],
-                  child: Text('Login',
+                  child: Text('Register',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white
                     ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+                child: Text(this.error,
+                style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0
                   ),
                 ),
               )
