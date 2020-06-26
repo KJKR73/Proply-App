@@ -24,14 +24,36 @@ class AuthService{
       return _userFromFirebaseUser(user);
     }
     catch(e){
-      print('Error ${e.toString()}');
+      print('Error : ${e.toString()}');
       return null;
     }
   }
 
   //Login with username and password
+  Future signInEmailAndPassword(String email, String password) async {
+    try{
+      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
+      return _userFromFirebaseUser(user);
+    }
+    catch(e){
+      print('Error : ${e.toString()}');
+      return null;
+    }
+  }
 
   //register with username and password
+  Future registerUserNamePassword(String email, String password) async {
+    try{
+      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
+      return _userFromFirebaseUser(user);
+    }
+    catch(e){
+      print('Error : ${e.toString()}');
+      return null;
+    }
+  }
 
   // Sign Out
   Future signOut() async {

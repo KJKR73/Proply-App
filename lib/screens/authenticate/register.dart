@@ -3,22 +3,12 @@ import 'package:ethinicty_recognition_app/shared/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
-
-  final AuthService _auth = AuthService();
-  final _formkey = GlobalKey<FormState>();
-
-  String email = "";
-  String password = "";
-  String error = "";
-  bool loading  = false;
-
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +23,6 @@ class _SignInState extends State<SignIn> {
         ),
         padding: EdgeInsets.only(top: 100, left: 20, right: 20),
         child: Form(
-          key: _formkey,
             child: Column(
             children: <Widget>[
               Container(
@@ -41,7 +30,7 @@ class _SignInState extends State<SignIn> {
                     color: Colors.brown[300],
                     borderRadius: BorderRadius.circular(0.0)
                   ),
-                  child: Text('Ethnicity App',
+                  child: Text('Register',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.brown[900],
@@ -52,29 +41,21 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter a valid Email' : null,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
                 ),
                 decoration: inputDecorationForm.copyWith(hintText: 'Enter Email'),
-                onChanged: (val) {
-                  setState(() {
-                    this.email = val;
-                  });
-                },
+                onChanged: (val) {},
               ),
               SizedBox(height: 20.0),
               TextFormField(
-                validator: (val) => val.length < 5  ? 'Invalid or empty password' : null,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
                 ),
                 decoration: inputDecorationForm.copyWith(hintText: 'Enter Password'),
-                onChanged: (val) {
-                  this.password = val;
-                },
+                onChanged: (val) {},
               ),
               SizedBox(height: 20.0),
               ButtonTheme(
@@ -84,20 +65,7 @@ class _SignInState extends State<SignIn> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)
                   ),
-                  onPressed: () async {
-                    if (_formkey.currentState.validate()) {
-                      setState(() {
-                        loading = true;
-                      });
-                    }
-                    dynamic result = await _auth.signInEmailAndPassword(this.email, this.password);
-                    if (result == null) {
-                      setState(() {
-                        this.error = 'Please enter valid email and password';
-                        loading = false;
-                      });
-                    }
-                  },
+                  onPressed: () {},
                   color: Colors.brown[700],
                   child: Text('Login',
                     style: TextStyle(
@@ -105,16 +73,6 @@ class _SignInState extends State<SignIn> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-                child: Text(this.error,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0
                   ),
                 ),
               )
@@ -125,6 +83,3 @@ class _SignInState extends State<SignIn> {
     );
   }
 }
-
-
-
