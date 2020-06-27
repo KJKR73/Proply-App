@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
+  Function toggleView;
+  Register({this.toggleView});
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -26,7 +28,7 @@ class _RegisterState extends State<Register> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/back2.jpg'),
+            image: AssetImage('assets/back3.png'),
             fit: BoxFit.cover
           )
         ),
@@ -37,13 +39,13 @@ class _RegisterState extends State<Register> {
             children: <Widget>[
               Container(
                   decoration: BoxDecoration(
-                    color: Colors.brown[300],
+                    //color: Colors.brown[300],
                     borderRadius: BorderRadius.circular(0.0)
                   ),
                   child: Text('Register',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.brown[900],
+                    color: Colors.red,
                     fontSize: 70.0,
                     fontWeight: FontWeight.bold
                   ),
@@ -94,7 +96,7 @@ class _RegisterState extends State<Register> {
                       }
                     }
                   },
-                  color: Colors.brown[700],
+                  color: Colors.black,
                   child: Text('Register',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -113,6 +115,21 @@ class _RegisterState extends State<Register> {
                     fontSize: 16.0
                   ),
                 ),
+              ),
+              SizedBox(height : 40.0),
+              InkWell(
+                child: Text('Sign In',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize : 16.0,
+                    decoration: TextDecoration.underline,
+                    letterSpacing: 1.0,
+                  )
+                ),
+                onTap: () {
+                  widget.toggleView();
+                }
               )
             ],
           ),

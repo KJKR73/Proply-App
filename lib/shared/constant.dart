@@ -5,14 +5,14 @@ const inputDecorationForm = InputDecoration(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold
                                 ),
-                                fillColor: Colors.grey,
+                                fillColor: Colors.black,
                                 filled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(8.0)
                                   ),
                                   borderSide: BorderSide(
-                                    color: Colors.grey,
+                                    color: Colors.red,
                                     width: 2.0
                                   ),
                                 ),

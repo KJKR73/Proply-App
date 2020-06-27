@@ -2,9 +2,12 @@ import 'package:ethinicty_recognition_app/services/auth.dart';
 import 'package:ethinicty_recognition_app/shared/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SignIn extends StatefulWidget {
+  final Function toggleView;
+  SignIn({this.toggleView});
   @override
   _SignInState createState() => _SignInState();
 }
@@ -27,7 +30,7 @@ class _SignInState extends State<SignIn> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/back2.jpg'),
+            image: AssetImage('assets/back3.png'),
             fit: BoxFit.cover
           )
         ),
@@ -38,13 +41,13 @@ class _SignInState extends State<SignIn> {
             children: <Widget>[
               Container(
                   decoration: BoxDecoration(
-                    color: Colors.brown[300],
+                    //color: Colors.brown[300],
                     borderRadius: BorderRadius.circular(0.0)
                   ),
                   child: Text('Ethnicity App',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.brown[900],
+                    color: Colors.red,
                     fontSize: 70.0,
                     fontWeight: FontWeight.bold
                   ),
@@ -97,8 +100,11 @@ class _SignInState extends State<SignIn> {
                         loading = false;
                       });
                     }
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setString('email', this.email);
+                    prefs.setString('password', this.password);
                   },
-                  color: Colors.brown[700],
+                  color: Colors.black,
                   child: Text('Login',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -108,15 +114,48 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
               ),
+              SizedBox(height: 5.0),
               SizedBox(
                 height: 20.0,
                 child: Text(this.error,
                 style: TextStyle(
-                    color: Colors.red,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0
                   ),
                 ),
+              ),
+              SizedBox(height : 40.0),
+              InkWell(
+                child: Text('Sign in Anony',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize : 16.0,
+                    decoration: TextDecoration.underline,
+                    letterSpacing: 1.0
+                  )
+                ),
+                onTap: () async {
+                  dynamic result = await _auth.signInAnon();
+                  if (result == null) {
+                    print('Cannot Sing In Anony');
+                  }
+                } 
+              ),
+              SizedBox(height : 40.0),
+              InkWell(
+                child: Text(' New User Register',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize : 16.0,
+                    decoration: TextDecoration.underline,
+                    letterSpacing: 1.0,
+                  )
+                ),
+                onTap: () {
+                  widget.toggleView();
+                }
               )
             ],
           ),

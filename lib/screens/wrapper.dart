@@ -1,4 +1,5 @@
 import 'package:ethinicty_recognition_app/models/user.dart';
+import 'package:ethinicty_recognition_app/screens/authenticate/authenticate.dart';
 import 'package:ethinicty_recognition_app/screens/authenticate/register.dart';
 import 'package:ethinicty_recognition_app/screens/authenticate/sign_in.dart';
 import 'package:ethinicty_recognition_app/screens/home/home.dart';
@@ -11,6 +12,6 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    return user == null ? Register() : Home();
+    return user == null ? Authenticate() : Home();
   }
 }
