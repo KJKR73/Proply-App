@@ -28,17 +28,18 @@ class _SignInState extends State<SignIn> {
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.black,
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/back3.png'),
-            fit: BoxFit.cover
-          )
-        ),
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(
+        //     image: AssetImage('assets/back3.png'),
+        //     fit: BoxFit.cover
+        //   )
+        // ),
         padding: EdgeInsets.only(top: 100, left: 20, right: 20),
         child: Form(
           key: _formkey,
             child: Column(
             children: <Widget>[
+              SizedBox(height: 20.0),
               Container(
                   decoration: BoxDecoration(
                     //color: Colors.brown[300],
@@ -48,8 +49,9 @@ class _SignInState extends State<SignIn> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.red,
-                    fontSize: 70.0,
-                    fontWeight: FontWeight.bold
+                    fontSize: 50.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Pacifico'
                   ),
                 ),
               ),
@@ -104,12 +106,12 @@ class _SignInState extends State<SignIn> {
                     prefs.setString('email', this.email);
                     prefs.setString('password', this.password);
                   },
-                  color: Colors.black,
+                  color: Colors.red,
                   child: Text('Login',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white
+                      color: Colors.black
                     ),
                   ),
                 ),
@@ -129,10 +131,12 @@ class _SignInState extends State<SignIn> {
               InkWell(
                 child: Text('Sign in Anony',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize : 16.0,
+                    color: Colors.red,
+                    fontSize : 20.0,
                     decoration: TextDecoration.underline,
-                    letterSpacing: 1.0
+                    letterSpacing: 1.0,
+                    fontFamily: 'Pacifico',
+                    fontWeight: FontWeight.bold
                   )
                 ),
                 onTap: () async {
@@ -142,15 +146,17 @@ class _SignInState extends State<SignIn> {
                   }
                 } 
               ),
-              SizedBox(height : 40.0),
+              SizedBox(height : 10.0),
               InkWell(
                 child: Text(' New User Register',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize : 16.0,
+                    color: Colors.red,
+                    fontSize : 20.0,
                     decoration: TextDecoration.underline,
                     letterSpacing: 1.0,
+                    fontFamily: 'Pacifico',
+                    fontWeight: FontWeight.bold
                   )
                 ),
                 onTap: () {

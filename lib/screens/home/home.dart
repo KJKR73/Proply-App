@@ -9,13 +9,21 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: RaisedButton(
-          child: Text('Logout'),
-          onPressed: () async {
-            _auth.signOut();
-          },
-        ),
+      body: Column(
+        children: <Widget>[
+            RaisedButton(
+            child: Text('Logout'),
+            onPressed: () async {
+              _auth.signOut();
+            },
+          ),
+            RaisedButton(
+            child: Text('page1'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/task1');
+            },
+          ),
+        ]
       ),
     );
   }
