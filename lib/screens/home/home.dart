@@ -3,31 +3,83 @@ import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
-
+  MediaQueryData queryData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(children: <Widget>[
-        RaisedButton(
-          child: Text('Logout'),
-          onPressed: () async {
-            _auth.signOut();
-          },
+        backgroundColor: Colors.black,
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: Colors.black,
+          ),
+          child: Drawer(
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  color: Colors.black,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(color: Colors.red),
+                    child: Text(
+                      'Ethin-APP',
+                      style: TextStyle(
+                        fontFamily: 'Pacifico',
+                        fontSize: 40.0,
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Machine Learning Task 1',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/task1');
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Machine Learning Task 2',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/task2');
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Logout',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0),
+                  ),
+                  onTap: () async {
+                    _auth.signOut();
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
-        RaisedButton(
-          child: Text('page1'),
-          onPressed: () {
-            Navigator.pushNamed(context, '/task1');
-          },
-        ),
-        RaisedButton(
-          child: Text('page2'),
-          onPressed: () {
-            Navigator.pushNamed(context, '/task2');
-          },
-        ),
-      ]),
-    );
+        body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 50.0),
+            child: Text(
+              'This is an App that shows the Implementatons of Machine Learning using Flutter',
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0),
+            )));
   }
 }
