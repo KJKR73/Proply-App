@@ -1,96 +1,6 @@
 import 'package:ethinicty_recognition_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
-// class Home extends StatelessWidget {
-//   final AuthService _auth = AuthService();
-//   MediaQueryData queryData;
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         backgroundColor: Colors.white,
-//         drawer: Theme(
-//           data: Theme.of(context).copyWith(
-//             canvasColor: Colors.black,
-//           ),
-//           child: Drawer(
-//             child: ListView(
-//               children: <Widget>[
-//                 Container(
-//                   color: Colors.black,
-//                   child: DrawerHeader(
-//                     decoration: BoxDecoration(
-//                         color: Colors.red,
-//                         border:
-//                             Border(bottom: BorderSide(color: Colors.white))),
-//                     child: Text(
-//                       'Ethin-APP',
-//                       style: TextStyle(
-//                         fontFamily: 'Pacifico',
-//                         fontSize: 40.0,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//                 Container(
-//                   decoration: BoxDecoration(
-//                       border: Border(bottom: BorderSide(color: Colors.white))),
-//                   child: ListTile(
-//                     title: Text(
-//                       'Machine Learning Task 1',
-//                       style: TextStyle(
-//                           fontSize: 16.0,
-//                           color: Colors.white,
-//                           fontWeight: FontWeight.bold,
-//                           letterSpacing: 2.0),
-//                     ),
-//                     onTap: () {
-//                       Navigator.pushNamed(context, '/task1');
-//                     },
-//                   ),
-//                 ),
-//                 ListTile(
-//                   title: Text(
-//                     'Machine Learning Task 2',
-//                     style: TextStyle(
-//                         fontSize: 16.0,
-//                         color: Colors.white,
-//                         fontWeight: FontWeight.bold,
-//                         letterSpacing: 2.0),
-//                   ),
-//                   onTap: () {
-//                     Navigator.pushNamed(context, '/task2');
-//                   },
-//                 ),
-//                 ListTile(
-//                   title: Text(
-//                     'Logout',
-//                     style: TextStyle(
-//                         fontSize: 16.0,
-//                         color: Colors.white,
-//                         fontWeight: FontWeight.bold,
-//                         letterSpacing: 2.0),
-//                   ),
-//                   onTap: () async {
-//                     _auth.signOut();
-//                   },
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         body: Padding(
-//             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 50.0),
-//             child: Text(
-//               'This is an App that shows the Implementatons of Machine Learning using Flutter',
-//               style: TextStyle(
-//                   fontSize: 20.0,
-//                   color: Colors.red,
-//                   fontWeight: FontWeight.bold,
-//                   letterSpacing: 2.0),
-//             )));
-//   }
-// }
-
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
   MediaQueryData queryData;
@@ -98,99 +8,60 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.white),
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.black,
+        ),
         child: Drawer(
           child: ListView(
+            padding: EdgeInsets.zero,
             children: <Widget>[
-              Container(
-                color: Colors.white,
-                child: DrawerHeader(
-                  padding: EdgeInsetsDirectional.only(top: 60.0),
-                  child: Text(
-                    'APP TEST',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 50.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      bottom: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsetsDirectional.only(top: 5.0),
-                height: MediaQuery.of(context).size.height * 0.1,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.black),
-                  ),
-                ),
+              DrawerHeader(
+                padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
                 child: ListTile(
-                  title: Text(
-                    'Machine learning task 1',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                  leading: CircleAvatar(
+                    radius: 30.0,
+                    child: ClipOval(
+                      child: Image.asset('assets/avatar.png'),
                     ),
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/task1');
-                  },
                 ),
-              ),
-              Container(
-                padding: EdgeInsetsDirectional.only(top: 10.0),
-                height: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/avatar_back.jpg'),
+                      fit: BoxFit.cover),
                   border: Border(
-                    bottom: BorderSide(color: Colors.black),
-                  ),
-                ),
-                child: ListTile(
-                  title: Text(
-                    'Machine learning task 2',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                    bottom: BorderSide(
+                      color: Colors.black,
                     ),
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/task2');
-                  },
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.437,
+                height: 10.0,
               ),
-              Container(
-                padding: EdgeInsetsDirectional.only(top: 10.0),
-                height: MediaQuery.of(context).size.height * 0.1,
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.black),
-                    bottom: BorderSide(color: Colors.black),
-                  ),
-                ),
-                child: ListTile(
-                  title: Text(
-                    'Log Out',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    _auth.signOut();
-                  },
-                ),
+              _createItems(
+                'ML Task 1',
+                () => {Navigator.pushNamed(context, '/task1')},
+                Icons.track_changes,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              _createItems(
+                'ML Task 2',
+                () => {Navigator.pushNamed(context, '/task2')},
+                Icons.track_changes,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              _createItems(
+                'Log Out',
+                () => {_auth.signOut()},
+                Icons.exit_to_app,
+              ),
+              SizedBox(
+                height: 10.0,
               ),
             ],
           ),
@@ -209,4 +80,30 @@ class Home extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _createItems(String text, dynamic ontap, IconData icon) {
+  return ListTile(
+    title: Row(
+      children: <Widget>[
+        Icon(
+          icon,
+          size: 35.0,
+          color: Colors.white,
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(40, 5, 5, 5),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 17.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    ),
+    onTap: ontap,
+  );
 }
