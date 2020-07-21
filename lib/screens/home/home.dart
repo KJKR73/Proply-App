@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
+  final username;
+  final String app_use_info = "This is an app that has 2 build in functions:-";
+  Home({this.username});
   MediaQueryData queryData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       drawer: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.black,
@@ -16,12 +20,29 @@ class Home extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30.0,
-                    child: ClipOval(
-                      child: Image.asset('assets/avatar.png'),
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 30.0,
+                          child: ClipOval(
+                            child: Image.asset('assets/avatar.png'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Text(
+                          '$username',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -31,7 +52,7 @@ class Home extends StatelessWidget {
                       fit: BoxFit.cover),
                   border: Border(
                     bottom: BorderSide(
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -43,6 +64,7 @@ class Home extends StatelessWidget {
                 'ML Task 1',
                 () => {Navigator.pushNamed(context, '/task1')},
                 Icons.track_changes,
+                Colors.black,
               ),
               SizedBox(
                 height: 10.0,
@@ -51,6 +73,7 @@ class Home extends StatelessWidget {
                 'ML Task 2',
                 () => {Navigator.pushNamed(context, '/task2')},
                 Icons.track_changes,
+                Colors.black,
               ),
               SizedBox(
                 height: 10.0,
@@ -59,6 +82,7 @@ class Home extends StatelessWidget {
                 'Log Out',
                 () => {_auth.signOut()},
                 Icons.exit_to_app,
+                Colors.black,
               ),
               SizedBox(
                 height: 10.0,
@@ -68,42 +92,94 @@ class Home extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 50.0),
-        child: Text(
-          'APP TEXT',
-          style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.5),
-        ),
-      ),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 50.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Ethnicity app',
+                style: TextStyle(
+                  fontSize: 50.0,
+                  color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Text(
+                '$app_use_info',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0,
+                ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              _createItems(
+                'ML Task 1',
+                () => {Navigator.pushNamed(context, '/task1')},
+                Icons.computer,
+                Colors.red,
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              _createItems(
+                'ML Task 2',
+                () => {Navigator.pushNamed(context, '/task2')},
+                Icons.computer,
+                Colors.red,
+              ),
+              SizedBox(
+                height: 70,
+              ),
+              Text(
+                'Swipe left -------->',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0,
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
 
-Widget _createItems(String text, dynamic ontap, IconData icon) {
-  return ListTile(
-    title: Row(
-      children: <Widget>[
-        Icon(
-          icon,
-          size: 35.0,
-          color: Colors.white,
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(40, 5, 5, 5),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 17.0,
-              fontWeight: FontWeight.bold,
+Widget _createItems(String text, dynamic ontap, IconData icon, dynamic color) {
+  return Container(
+    color: color,
+    child: ListTile(
+      title: Row(
+        children: <Widget>[
+          Icon(
+            icon,
+            size: 35.0,
+            color: Colors.white,
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(40, 5, 5, 5),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
+      onTap: ontap,
     ),
-    onTap: ontap,
   );
 }
