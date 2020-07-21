@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
   final username;
-  final String app_use_info = "This is an app that has 2 build in functions:-";
+  final String appUseInfo = "This is an app that has 2 build in functions:-";
   Home({this.username});
   MediaQueryData queryData;
   @override
@@ -109,7 +109,7 @@ class Home extends StatelessWidget {
                 height: 30.0,
               ),
               Text(
-                '$app_use_info',
+                '$appUseInfo',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 20.0,
