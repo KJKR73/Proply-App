@@ -41,3 +41,5 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+/machine_learning_pipelines/models_trained/model_age.hdf5

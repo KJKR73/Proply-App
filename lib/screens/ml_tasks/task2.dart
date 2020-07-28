@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,10 @@ class MLTask2 extends StatefulWidget {
 }
 
 class _MLTask2State extends State<MLTask2> {
-  io.File _image;
-  List<Face> _faces;
-  bool loaded = false;
+  im.Image _image;
   final imagePicker = ImagePicker();
   final FaceDetector faceDetector = FirebaseVision.instance.faceDetector();
+
   // Retrieve the image from the camera and get the list of faces
   Future _getImageAndFaces() async {
     dynamic imageFile = await imagePicker.getImage(source: ImageSource.camera);
@@ -24,15 +24,18 @@ class _MLTask2State extends State<MLTask2> {
     dynamic visonImage = FirebaseVisionImage.fromFile(io.File(imageFile.path));
     List<Face> faces = await faceDetector.processImage(visonImage);
     for (Face face in faces) {
-      Rect faceu = face.boundingBox;
-      print(faceu);
-      int left = faceu.left.round();
-      int right = faceu.right.round();
-      int top = faceu.top.round();
-      int bottom = faceu.bottom.round();
+      Rect faceDims = face.boundingBox;
+      print(faceDims);
+      int left = faceDims.left.round();
+      int right = faceDims.right.round();
+      int top = faceDims.top.round();
+      int bottom = faceDims.bottom.round();
       im.Image resized =
           im.copyCrop(img, left, right, right - left, bottom - top);
-      print(resized.getBytes());
+      print(resized);
+      setState(() {
+        _image = resized;
+      });
     }
   }
 
@@ -43,25 +46,13 @@ class _MLTask2State extends State<MLTask2> {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 50),
         child: Column(
           children: <Widget>[
-            // Container(
-            //   child: Column(
-            //     children: <Widget>[
-            //       _image == null
-            //           ? Container(
-            //               height: 200.0,
-            //               width: 300.0,
-            //               decoration: BoxDecoration(
-            //                   image: DecorationImage(
-            //                       image: AssetImage('assets/back.jpg'))),
-            //             )
-            //           : Container(
-            //               decoration: BoxDecoration(
-            //                   image: DecorationImage(
-            //                       image: NetworkImage('temp.png'))),
-            //             )
-            //     ],
+            // _image == null ? Container(
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //       image: FileImage(_image)
+            //     ),
             //   ),
-            // ),
+            // )
             RaisedButton(
               child: Text('Click Here'),
               onPressed: _getImageAndFaces,
