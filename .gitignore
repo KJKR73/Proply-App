@@ -43,3 +43,6 @@ app.*.map.json
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 /machine_learning_pipelines/models_trained/model_age.hdf5
+/machine_learning_pipelines/api/.idea
+/machine_learning_pipelines/api/__pycache__
+/machine_learning_pipelines/api/venv
