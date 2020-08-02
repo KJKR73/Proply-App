@@ -23,6 +23,7 @@ class _MLTask2State extends State<MLTask2> {
       maxHeight: 500,
       maxWidth: 500,
     );
+
     //im.Image img = im.decodeImage(io.File(imageFile.path).readAsBytesSync());
     final imageBytes = io.File(imageFile.path).readAsBytesSync();
     String base64Image = base64Encode(imageBytes);
