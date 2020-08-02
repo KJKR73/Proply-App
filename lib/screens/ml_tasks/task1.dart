@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:ethinicty_recognition_app/shared/constant.dart';
 //import 'package:camera/new/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MLTask1 extends StatefulWidget {
@@ -12,7 +14,8 @@ class MLTask1 extends StatefulWidget {
 
 class _MLTask1State extends State<MLTask1> {
   File _image;
-  int index = 0;
+  int index;
+  int _humanCheck = 0;
   String sloganToDisplay = '';
   bool reset = false;
   MediaQueryData queryData;
@@ -46,8 +49,33 @@ class _MLTask1State extends State<MLTask1> {
   var randIndex = new Random();
   final picker = ImagePicker();
   Future _getImage() async {
-    dynamic imageFile = await picker.getImage(source: ImageSource.camera);
+    dynamic imageFile = await picker.getImage(
+      source: ImageSource.camera,
+      maxHeight: 500,
+      maxWidth: 500,
+    );
+    final imageBytes = File(imageFile.path).readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
+    /////////////////////////////////////////////////
+    var url = 'http://52.66.206.153:8080/humancheck';
+    Map data = {
+      'query': base64Image,
+    };
+    var body = json.encode(data);
+    var response = await post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+    // Manuplate the response to get the predictions
+    Map faceData = json.decode(response.body);
+
+    if (response.statusCode != 200) {
+      print('Some Error at the backend occured please check you code again');
+    }
+
     setState(() {
+      _humanCheck = faceData['response'];
       _image = File(imageFile.path);
       index = randIndex.nextInt(tags.length - 1);
       reset = true;
@@ -93,19 +121,35 @@ class _MLTask1State extends State<MLTask1> {
               ),
               SizedBox(height: 40.0),
               Container(
-                child: Column(children: <Widget>[
-                  _image == null
-                      ? emptyImage(queryData.size.height, queryData.size.width)
-                      : displayPicture(tags[this.index], this._image,
-                          queryData.size.height, queryData.size.width),
-                ]),
+                child: Column(
+                  children: <Widget>[
+                    _image == null
+                        ? emptyImage(
+                            queryData.size.height, queryData.size.width)
+                        : displayPicture(
+                            tags[this.index],
+                            this._image,
+                            queryData.size.height,
+                            queryData.size.width,
+                            _humanCheck),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 20.0,
               ),
               SizedBox(
                 height: 70.0,
-                child: messageToDisplay,
+                child: _humanCheck == 1
+                    ? messageToDisplay
+                    : Text(
+                        'Man you dumbass bitch you think you can fool me',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
               ButtonTheme(
                 height: 60.0,

@@ -22,14 +22,17 @@ const inputDecorationForm = InputDecoration(
   ),
 );
 
-Widget displayPicture(String slogan, File image, double height, double width) {
+Widget displayPicture(
+    String slogan, File image, double height, double width, int humanCheck) {
   return Container(
     padding: EdgeInsets.only(bottom: 4.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       color: Colors.white,
       image: DecorationImage(
-        image: FileImage(image),
+        image: humanCheck == 0
+            ? AssetImage('assets/humanCheck.jpg')
+            : FileImage(image),
         fit: BoxFit.cover,
       ),
     ),

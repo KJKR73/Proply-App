@@ -36,53 +36,89 @@ face_detector = mtcnn.MTCNN()
 
 
 class GetPredictions(Resource):
-    def get(self):
+    def post(self):
         list_preds = {}
         args = parser.parse_args()
         user_query = args['query']
         print(len(user_query))
         with open('image.jpg', 'wb') as fh:
             fh.write(base64.b64decode(user_query))
+        fh.close()
+        with open('quert.txt', 'w') as fh2:
+            fh2.write(user_query)
+        fh2.close()
 
         # Resize the image and pass it through the models to get the predictions
         data = Image.open('image.jpg').convert('RGB')
         image = np.asarray(data)
         # Image is ready till here
+        try:
+            # Lets start detecting faces
+            face_data = face_detector.detect_faces(image)
+            if len(face_data) == 0:
+                return 'Face/Faces were not detected, Please see that the image contains a face or check the lightening'
 
-        # Lets start detecting faces
-        face_data = face_detector.detect_faces(image)
-        if len(face_data) == 0:
-            return 'Face/Faces were not detected, Please see that the image contains a face or check the lightening'
+            # Lets get the faces crop them, pass them through the models one by one and send the predictions
+            for i in range(len(face_data)):
+                x1, y1, width, height = face_data[i]['box']
+                x2 = x1 + width
+                y2 = y1 + height
+                face = image[y1:y2, x1:x2]
+                face = Image.fromarray(face)
+                face = face.resize(IMG_SIZE)
+                face_input = np.asarray(face).reshape((1, IMG_SIZE[0], IMG_SIZE[0], 3)) / 255.0
 
-        # Lets get the faces crop them, pass them through the models one by one and send the predictions
-        for i in range(len(face_data)):
-            x1, y1, width, height = face_data[i]['box']
-            x2 = x1 + width
-            y2 = y1 + height
-            face = image[y1:y2, x1:x2]
-            face = Image.fromarray(face)
-            face = face.resize(IMG_SIZE)
-            face_input = np.asarray(face).reshape((1, IMG_SIZE[0], IMG_SIZE[0], 3)) / 255.0
+                # Pass the face through the model for testing
+                gender_label = model_gender.predict(face_input)
+                race_label = np.argmax(model_race.predict(face_input))
+                age_label = model_age.predict(face_input)
 
-            # Pass the face through the model for testing
-            gender_label = model_gender.predict(face_input)
-            race_label = np.argmax(model_race.predict(face_input))
-            age_label = model_age.predict(face_input)
+                # Convert Image to base64
+                im_file = BytesIO()
+                face.save(im_file, format="PNG")
+                im_bytes = im_file.getvalue()  # im_bytes: image in binary format.
+                im_b64 = base64.b64encode(im_bytes)
 
-            # Convert Image to base64
-            im_file = BytesIO()
-            face.save(im_file, format="PNG")
-            im_bytes = im_file.getvalue()  # im_bytes: image in binary format.
-            im_b64 = base64.b64encode(im_bytes)
+                list_preds['face%i' % i] = {
+                    'base64': im_b64.decode('utf-8'),
+                    'age': int(age_label[0][0]),
+                    'gender': int(np.round(gender_label[0][0])),
+                    'race': int(race_label) + 1
+                }
 
-            list_preds['face%i' % i] = {
-                'base64': im_b64.decode('utf-8'),
-                'age': int(age_label[0][0]),
-                'gender': int(np.round(gender_label[0][0])),
-                'race': int(race_label) + 1
-            }
-            
-        return list_preds
+            return list_preds
+
+        except():
+            return 'Backend Error Occured'
+
+
+class HumanCheck(Resource):
+    def post(self):
+        args = parser.parse_args()
+        user_query = args['query']
+        print(len(user_query))
+        with open('image.jpg', 'wb') as fh:
+            fh.write(base64.b64decode(user_query))
+        fh.close()
+
+        # Resize the image and pass it through the models to get the predictions
+        data = Image.open('image.jpg').convert('RGB')
+        image = np.asarray(data)
+        # Image is ready till here
+        try:
+            # Lets start detecting faces
+            face_data = face_detector.detect_faces(image)
+            if len(face_data) == 0:
+                return {
+                    'response': 0
+                }
+            else:
+                return {
+                    'response': 1
+                }
+
+        except():
+            return 'Backend Error Occured'
 
 
 class Home(Resource):
@@ -92,7 +128,7 @@ class Home(Resource):
 
 api.add_resource(Home, '/')
 api.add_resource(GetPredictions, '/predictions')
-
+api.add_resource(HumanCheck, '/humancheck')
 
 if __name__ == '__main__':
     app.run(debug=True)

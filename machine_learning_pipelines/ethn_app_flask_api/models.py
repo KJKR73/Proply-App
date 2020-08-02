@@ -91,9 +91,7 @@ def model_arch_age():
     x = tf.keras.layers.MaxPooling2D((2, 2))(x)
     x = tf.keras.layers.Flatten()(x)
 
-    x = tf.keras.layers.Dense(256, activation='relu')(x)
-    x = tf.keras.layers.Dropout(0.2)(x)
-    x = tf.keras.layers.Dense(128, activation='relu')(x)
+    x = tf.keras.layers.Dense(16, activation='relu')(x)
     out = tf.keras.layers.Dense(1, activation='linear')(x)
 
     model = tf.keras.models.Model(inp, [out])
