@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ethinicty_recognition_app/customs/result_display.dart';
 import 'package:ethinicty_recognition_app/shared/constant.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
@@ -102,8 +103,42 @@ class _MLTask2State extends State<MLTask2> {
                     _faceDataDisplay == null
                         ? emptyImage(
                             queryData.size.height, queryData.size.width)
-                        : Text('sdds'),
+                        : ResultDisplay(
+                            age: _faceDataDisplay[0]['age'].toString(),
+                            gender: _faceDataDisplay[0]['gender'].toString(),
+                            race: _faceDataDisplay[0]['gender'].toString(),
+                            base64Image:
+                                _faceDataDisplay[0]['base64'].toString(),
+                          ),
                   ],
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              ButtonTheme(
+                height: 60.0,
+                minWidth: 150.0,
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/summary',
+                      arguments: {'face_data': _faceDataDisplay},
+                    );
+                  },
+                  color: Colors.black,
+                  child: Text(
+                    'Click Here',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               )
             ],
