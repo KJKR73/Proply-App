@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class ResultDisplay extends StatelessWidget {
@@ -17,27 +16,59 @@ class ResultDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Convert base64 to bytes //////////////////////
-    List<int> bytes = utf8.encode(this.base64Image);
-    String image = base64Encode(bytes);
-    Uint8List finalImage = base64Decode(image);
+    var image = base64.decode(this.base64Image);
     /////////////////////////////////////////////////
+    String genderDisplay = this.gender == '0' ? 'Male' : 'Female';
+    dynamic _color = Colors.black;
     return Container(
       child: Padding(
-        padding: EdgeInsets.all(0),
+        padding: EdgeInsets.all(10),
         child: Container(
-          child: Column(
+          color: Colors.white,
+          child: Row(
             children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: MemoryImage(finalImage),
-                    fit: BoxFit.cover,
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(0),
+                child: Image.memory(
+                  image,
+                  height: 200,
+                  width: 200,
                 ),
               ),
-              Text('${this.gender}'),
-              Text('${this.age}'),
-              Text('${this.race}'),
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                children: <Widget>[
+                  Text(
+                    'Gender : $genderDisplay',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: _color,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Age : ${this.age}',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: _color,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Race : ${this.race}',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: _color,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

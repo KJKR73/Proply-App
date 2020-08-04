@@ -41,6 +41,22 @@ Widget displayPicture(
   );
 }
 
+Widget displayPictureTask2(File image, double height, double width) {
+  return Container(
+    padding: EdgeInsets.only(bottom: 4.0),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.white,
+      image: DecorationImage(
+        image: FileImage(image),
+        fit: BoxFit.cover,
+      ),
+    ),
+    height: height - (height * 0.6),
+    width: width,
+  );
+}
+
 Widget emptyImage(double height, double width) {
   return Container(
     padding: EdgeInsets.all(0.0),

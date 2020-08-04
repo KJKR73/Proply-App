@@ -140,7 +140,7 @@ class _MLTask1State extends State<MLTask1> {
               ),
               SizedBox(
                 height: 70.0,
-                child: _humanCheck == 1
+                child: _humanCheck == 1 && _image != null
                     ? messageToDisplay
                     : Text(
                         'Man you dumbass bitch you think you can fool me',

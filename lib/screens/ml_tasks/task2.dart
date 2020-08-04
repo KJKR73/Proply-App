@@ -15,6 +15,7 @@ class MLTask2 extends StatefulWidget {
 class _MLTask2State extends State<MLTask2> {
   List<Map> _faceDataDisplay;
   final imagePicker = ImagePicker();
+  io.File _image;
 
   // Retrieve the image from the camera and get the list of faces
   Future _getImageAndFaces() async {
@@ -55,6 +56,7 @@ class _MLTask2State extends State<MLTask2> {
     });
     setState(() {
       _faceDataDisplay = faceDataTemp;
+      _image = io.File(imageFile.path);
     });
     ////////////////////////////////////////////////
   }
@@ -100,16 +102,14 @@ class _MLTask2State extends State<MLTask2> {
               Container(
                 child: Column(
                   children: <Widget>[
-                    _faceDataDisplay == null
+                    _image == null
                         ? emptyImage(
                             queryData.size.height, queryData.size.width)
-                        : ResultDisplay(
-                            age: _faceDataDisplay[0]['age'].toString(),
-                            gender: _faceDataDisplay[0]['gender'].toString(),
-                            race: _faceDataDisplay[0]['gender'].toString(),
-                            base64Image:
-                                _faceDataDisplay[0]['base64'].toString(),
-                          ),
+                        : displayPictureTask2(
+                            this._image,
+                            queryData.size.height,
+                            queryData.size.width,
+                          )
                   ],
                 ),
               ),
@@ -127,7 +127,9 @@ class _MLTask2State extends State<MLTask2> {
                     Navigator.pushNamed(
                       context,
                       '/summary',
-                      arguments: {'face_data': _faceDataDisplay},
+                      arguments: {
+                        'face_data': _faceDataDisplay,
+                      },
                     );
                   },
                   color: Colors.black,
