@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:ethinicty_recognition_app/shared/constant.dart';
-//import 'package:camera/new/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +14,7 @@ class MLTask1 extends StatefulWidget {
 class _MLTask1State extends State<MLTask1> {
   File _image;
   int index;
-  int _humanCheck = 0;
+  String _humanCheck = "0";
   String sloganToDisplay = '';
   bool reset = false;
   MediaQueryData queryData;
@@ -75,7 +74,7 @@ class _MLTask1State extends State<MLTask1> {
     }
 
     setState(() {
-      _humanCheck = faceData['response'];
+      _humanCheck = faceData['response'].toString();
       _image = File(imageFile.path);
       index = randIndex.nextInt(tags.length - 1);
       reset = true;
@@ -85,28 +84,27 @@ class _MLTask1State extends State<MLTask1> {
   @override
   Widget build(BuildContext context) {
     Widget messageToDisplay = Text(
-      _image == null
+      (_image == null) || (_humanCheck == "0")
           ? 'Your message will be displayed here'
           : tags[this.index].toString(),
       style: TextStyle(
-        color: Colors.white,
+        color: Colors.blue[900],
         fontSize: 20.0,
         fontWeight: FontWeight.bold,
       ),
     );
     queryData = MediaQuery.of(context);
     return Scaffold(
-      backgroundColor: Colors.grey[900],
-      body: SingleChildScrollView(
+      backgroundColor: Colors.white,
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           child: Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.black,
+                  color: Colors.blue[900],
                 ),
                 child: Text(
                   'Click on the button below to see the message',
@@ -115,12 +113,16 @@ class _MLTask1State extends State<MLTask1> {
                     color: Colors.white,
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
+                    letterSpacing: 1,
                   ),
                 ),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 10.0),
               Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
                 child: Column(
                   children: <Widget>[
                     _image == null
@@ -136,30 +138,38 @@ class _MLTask1State extends State<MLTask1> {
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
-              SizedBox(
-                height: 70.0,
-                child: _humanCheck == 1 && _image != null
+              Container(
+                child: (_humanCheck == "0") && (_image == null)
                     ? messageToDisplay
-                    : Text(
-                        'Man you dumbass bitch you think you can fool me',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                    : Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 0,
+                        ),
+                        child: Text(
+                          'Man you dumbass bitch you think you can fool me',
+                          style: TextStyle(
+                            color: Colors.blue[900],
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               ButtonTheme(
                 height: 60.0,
-                minWidth: 150.0,
+                minWidth: 300.0,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   onPressed: _getImage,
-                  color: Colors.black,
+                  color: Colors.blue,
                   child: Text(
                     'Click Here',
                     style: TextStyle(

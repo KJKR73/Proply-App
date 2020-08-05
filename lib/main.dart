@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
       value: AuthService().user,
+      catchError: (context, error) => null,
       child: MaterialApp(
         //initialRoute: '/',
         routes: {

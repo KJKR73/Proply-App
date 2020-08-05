@@ -2,6 +2,7 @@ import 'package:ethinicty_recognition_app/services/auth.dart';
 import 'package:ethinicty_recognition_app/shared/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   Function toggleView;
@@ -11,7 +12,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
 
@@ -24,116 +24,158 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.black,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/back3.png'),
-            fit: BoxFit.cover
-          )
-        ),
-        padding: EdgeInsets.only(top: 100, left: 20, right: 20),
-        child: Form(
-          key: _formkey,
-            child: Column(
-            children: <Widget>[
-              Container(
-                  decoration: BoxDecoration(
-                    //color: Colors.brown[300],
-                    borderRadius: BorderRadius.circular(0.0)
-                  ),
-                  child: Text('Register',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 70.0,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter a valid email' : null,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
-                decoration: inputDecorationForm.copyWith(hintText: 'Enter Email'),
-                onChanged: (val) {
-                  this.email = val;
-                },
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                ),
-                decoration: inputDecorationForm.copyWith(hintText: 'Enter Password'),
-                onChanged: (val) {
-                  this.password = val;
-                },
-              ),
-              SizedBox(height: 20.0),
-              ButtonTheme(
-                height: 60.0,
-                minWidth: 200.0,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                  ),
-                  onPressed: () async {
-                    if (_formkey.currentState.validate()) {
-                      setState(() {
-                        loading = true;
-                      });
-                      dynamic result = await _auth.registerEmailPassword(this.email, this.password);
-                      if (result == null) {
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.only(top: 60, left: 20, right: 20),
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 20.0),
+                    Container(
+                      decoration: BoxDecoration(
+                          //color: Colors.brown[300],
+                          borderRadius: BorderRadius.circular(0.0)),
+                      child: Text(
+                        'Register',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontSize: 54.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Pacifico'),
+                      ),
+                    ),
+                    SizedBox(height: 50.0),
+                    TextFormField(
+                      validator: (val) =>
+                          val.isEmpty ? 'Enter a valid Email' : null,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                      ),
+                      decoration:
+                          inputDecorationForm.copyWith(hintText: 'Enter Email'),
+                      onChanged: (val) {
                         setState(() {
-                          this.error = "Enter a valid Email or Password";
-                          loading = false;
+                          this.email = val;
                         });
-                      }
-                    }
-                  },
-                  color: Colors.black,
-                  child: Text('Register',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
+                      },
+                    ),
+                    SizedBox(height: 20.0),
+                    TextFormField(
+                      validator: (val) =>
+                          val.length < 5 ? 'Invalid or empty password' : null,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                      ),
+                      decoration: inputDecorationForm.copyWith(
+                          hintText: 'Enter Password'),
+                      onChanged: (val) {
+                        this.password = val;
+                      },
+                    ),
+                    SizedBox(height: 20.0),
+                    ButtonTheme(
+                      height: 60.0,
+                      minWidth: 200.0,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        onPressed: () async {
+                          if (_formkey.currentState.validate()) {
+                            setState(() {
+                              loading = true;
+                            });
+                          }
+                          dynamic result = await _auth.registerEmailPassword(
+                              this.email, this.password);
+                          if (result == null) {
+                            setState(() {
+                              this.error =
+                                  'Please enter valid email and password';
+                              loading = false;
+                            });
+                          }
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setString('email', this.email);
+                          prefs.setString('password', this.password);
+                        },
+                        color: Colors.blue,
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    SizedBox(
+                      height: 20.0,
+                      child: Text(
+                        this.error,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 220.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Colors.blue,
+                        ),
+                        left: BorderSide(
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                    padding: EdgeInsets.all(0),
+                    child: ButtonTheme(
+                      buttonColor: Colors.white,
+                      child: FlatButton(
+                        child: Text(
+                          'Already a user Sign In',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          widget.toggleView();
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20.0,
-                child: Text(this.error,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0
-                  ),
-                ),
-              ),
-              SizedBox(height : 40.0),
-              InkWell(
-                child: Text('Sign In',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize : 16.0,
-                    decoration: TextDecoration.underline,
-                    letterSpacing: 1.0,
-                  )
-                ),
-                onTap: () {
-                  widget.toggleView();
-                }
-              )
-            ],
-          ),
-        )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

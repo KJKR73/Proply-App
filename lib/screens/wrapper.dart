@@ -1,7 +1,5 @@
 import 'package:ethinicty_recognition_app/models/user.dart';
 import 'package:ethinicty_recognition_app/screens/authenticate/authenticate.dart';
-import 'package:ethinicty_recognition_app/screens/authenticate/register.dart';
-import 'package:ethinicty_recognition_app/screens/authenticate/sign_in.dart';
 import 'package:ethinicty_recognition_app/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

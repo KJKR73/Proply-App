@@ -23,7 +23,7 @@ class _SummaryState extends State<Summary> {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blue[900],
         title: Text(
           'Summary',
           style: TextStyle(
@@ -35,7 +35,9 @@ class _SummaryState extends State<Summary> {
       ),
       body: Container(
         padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
-        color: Colors.black,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
         child: Column(
           children: <Widget>[
             Expanded(

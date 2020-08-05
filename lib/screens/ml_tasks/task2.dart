@@ -23,7 +23,7 @@ class _MLTask2State extends State<MLTask2> {
     dynamic imageFile = await imagePicker.getImage(
       source: ImageSource.camera,
       maxHeight: 500,
-      maxWidth: 500,
+      maxWidth: 300,
     );
 
     //im.Image img = im.decodeImage(io.File(imageFile.path).readAsBytesSync());
@@ -66,7 +66,7 @@ class _MLTask2State extends State<MLTask2> {
     dynamic queryData = MediaQuery.of(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blue[900],
         child: Icon(
           Icons.image,
           color: Colors.white,
@@ -75,17 +75,17 @@ class _MLTask2State extends State<MLTask2> {
           await _getImageAndFaces();
         },
       ),
-      backgroundColor: Colors.grey[900],
-      body: SingleChildScrollView(
+      backgroundColor: Colors.white,
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 50),
+          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           child: Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(0.0),
+                  color: Colors.blue[900],
                 ),
                 child: Text(
                   'Click on the button below to see the results',
@@ -98,8 +98,12 @@ class _MLTask2State extends State<MLTask2> {
                   ),
                 ),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 10.0),
               Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
                 child: Column(
                   children: <Widget>[
                     _image == null
@@ -118,21 +122,23 @@ class _MLTask2State extends State<MLTask2> {
               ),
               ButtonTheme(
                 height: 60.0,
-                minWidth: 150.0,
+                minWidth: 300.0,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/summary',
-                      arguments: {
-                        'face_data': _faceDataDisplay,
-                      },
-                    );
-                  },
-                  color: Colors.black,
+                  onPressed: _image == null
+                      ? null
+                      : () {
+                          Navigator.pushNamed(
+                            context,
+                            '/summary',
+                            arguments: {
+                              'face_data': _faceDataDisplay,
+                            },
+                          );
+                        },
+                  color: Colors.blue,
                   child: Text(
                     'Click Here',
                     style: TextStyle(
@@ -140,6 +146,34 @@ class _MLTask2State extends State<MLTask2> {
                       fontSize: 17.0,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 70,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text(
+                    _image == null ? 'Step 2 click button above' : "",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.blue[900],
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                child: Text(
+                  _image == null ? 'Step 1 click a photo from here --->' : '',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.blue[900],
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
                   ),
                 ),
               )
