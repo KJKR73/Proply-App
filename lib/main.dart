@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:ethinicty_recognition_app/models/user.dart';
 import 'package:ethinicty_recognition_app/screens/ml_tasks/summary.dart';
 import 'package:ethinicty_recognition_app/screens/ml_tasks/task1.dart';
@@ -8,7 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  // runApp(MyApp());
+  runApp(
+    DevicePreview(
+      builder: (context) => MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,6 +25,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       catchError: (context, error) => null,
       child: MaterialApp(
+        builder: DevicePreview.appBuilder,
         //initialRoute: '/',
         routes: {
           '/task1': (context) => MLTask1(),
