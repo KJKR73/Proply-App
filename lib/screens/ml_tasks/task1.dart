@@ -87,14 +87,21 @@ class _MLTask1State extends State<MLTask1> {
     var width = MediaQuery.of(context).size.width;
     var factorHeight = 1 / 740.0 * height;
     var factorWidth = 1 / 360.0 * width;
-    Widget messageToDisplay = Text(
-      (_image == null) || (_humanCheck == "0")
-          ? 'Your message will be displayed here'
-          : tags[this.index].toString(),
-      style: TextStyle(
-        color: Colors.blue[900],
-        fontSize: factorHeight * 20.0,
-        fontWeight: FontWeight.bold,
+    Widget messageToDisplay = Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: factorWidth * 20,
+        vertical: 0,
+      ),
+      child: Text(
+        (_image == null) || (_humanCheck == "0")
+            ? 'Your message will be displayed here'
+            : tags[this.index].toString(),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.blue[900],
+          fontSize: factorHeight * 20.0,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
     queryData = MediaQuery.of(context);
@@ -148,7 +155,10 @@ class _MLTask1State extends State<MLTask1> {
                               this._image,
                               queryData.size.height,
                               queryData.size.width,
-                              _humanCheck),
+                              _humanCheck,
+                              factorHeight,
+                              factorWidth,
+                            ),
                     ],
                   ),
                 ),
@@ -159,7 +169,7 @@ class _MLTask1State extends State<MLTask1> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  child: (_humanCheck == "0") && (_image == null)
+                  child: (_humanCheck == "1")
                       ? messageToDisplay
                       : Padding(
                           padding: EdgeInsets.symmetric(
@@ -168,6 +178,7 @@ class _MLTask1State extends State<MLTask1> {
                           ),
                           child: Text(
                             'Man you dumbass bitch you think you can fool me',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.blue[900],
                               fontSize: factorHeight * 20.0,

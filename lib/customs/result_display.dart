@@ -6,11 +6,19 @@ class ResultDisplay extends StatelessWidget {
   String race;
   String age;
   String base64Image;
+  var height;
+  var width;
+  var factorHeight;
+  var factorWidth;
   ResultDisplay({
     this.age,
     this.gender,
     this.race,
     this.base64Image,
+    this.height,
+    this.width,
+    this.factorHeight,
+    this.factorWidth,
   });
 
   @override
@@ -23,61 +31,71 @@ class ResultDisplay extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.blue[900],
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(factorHeight * 10),
       ),
       child: Padding(
-        padding: EdgeInsets.all(3),
+        padding: EdgeInsets.symmetric(
+          horizontal: factorWidth * 2,
+          vertical: factorHeight * 2,
+        ),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.blue[50],
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(factorHeight * 10),
           ),
           child: Row(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.memory(
-                    image,
-                    height: 200,
-                    width: 200,
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.only(
+                    top: factorWidth * 2,
+                    bottom: factorHeight * 2,
+                    left: factorWidth * 2,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.memory(
+                      image,
+                      height: factorHeight * 200,
+                      width: factorWidth * 200,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(
-                width: 20,
-              ),
-              Column(
-                children: <Widget>[
-                  Text(
-                    'Gender : $genderDisplay',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: _color,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Gender : $genderDisplay',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: _color,
+                        fontSize: factorHeight * 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Age : ${this.age}',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: _color,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+                    Text(
+                      'Age : ${this.age}',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: _color,
+                        fontSize: factorHeight * 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Race : ${this.race}',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: _color,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+                    Text(
+                      'Race : ${this.race}',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: _color,
+                        fontSize: factorHeight * 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),

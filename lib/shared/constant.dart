@@ -36,6 +36,8 @@ Widget displayPicture(
   double height,
   double width,
   String humanCheck,
+  var factorHeight,
+  var factorWidth,
 ) {
   return Container(
     padding: EdgeInsets.only(bottom: 4.0),
@@ -49,8 +51,8 @@ Widget displayPicture(
         fit: BoxFit.cover,
       ),
     ),
-    height: 350,
-    width: width,
+    height: factorHeight * 350 - 1,
+    width: factorWidth * width,
   );
 }
 
@@ -71,7 +73,7 @@ Widget displayPictureTask2(
         fit: BoxFit.cover,
       ),
     ),
-    height: factorHeight * 350,
+    height: factorHeight * 350 - 1,
     width: factorWidth * width,
   );
 }
@@ -92,7 +94,7 @@ Widget emptyImage(
         fit: BoxFit.cover,
       ),
     ),
-    height: factorHeight * 350,
+    height: factorHeight * 350 - 1,
     width: factorWidth * width,
   );
 }

@@ -16,49 +16,55 @@ class _MLTask2State extends State<MLTask2> {
   List<Map> _faceDataDisplay;
   final imagePicker = ImagePicker();
   io.File _image;
-
+  String _error;
   // Retrieve the image from the camera and get the list of faces
   Future _getImageAndFaces() async {
     // Retrieve the image from user////////////////////////////////////////
-    dynamic imageFile = await imagePicker.getImage(
-      source: ImageSource.camera,
-      maxHeight: 500,
-      maxWidth: 300,
-    );
+    try {
+      dynamic imageFile = await imagePicker.getImage(
+        source: ImageSource.camera,
+        maxHeight: 500,
+        maxWidth: 300,
+      );
 
-    //im.Image img = im.decodeImage(io.File(imageFile.path).readAsBytesSync());
-    final imageBytes = io.File(imageFile.path).readAsBytesSync();
-    String base64Image = base64Encode(imageBytes);
-    /////////////////////////////////////////////////////////////////////////
+      //im.Image img = im.decodeImage(io.File(imageFile.path).readAsBytesSync());
+      final imageBytes = io.File(imageFile.path).readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+      /////////////////////////////////////////////////////////////////////////
 
-    // Post request to the endpoint to get the result
-    var url = 'http://52.66.206.153:8080/predictions';
-    Map data = {
-      'query': base64Image,
-    };
-    var body = json.encode(data);
-    var response = await post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: body,
-    );
-    /////////////////////////////////////////////////
+      // Post request to the endpoint to get the result
+      var url = 'http://52.66.206.153:8080/predictions';
+      Map data = {
+        'query': base64Image,
+      };
+      var body = json.encode(data);
+      var response = await post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+      /////////////////////////////////////////////////
 
-    if (response.statusCode != 200) {
-      print('Some Error at the backend occured please check you code again');
+      if (response.statusCode != 200) {
+        print('Some Error at the backend occured please check you code again');
+      }
+
+      // Manuplate the response to get the predictions
+      Map faceData = json.decode(response.body);
+      List<Map> faceDataTemp = [];
+      faceData.forEach((key, value) {
+        faceDataTemp.add(value);
+      });
+      setState(() {
+        _faceDataDisplay = faceDataTemp;
+        _image = io.File(imageFile.path);
+      });
+      ////////////////////////////////////////////////
+    } catch (err) {
+      setState(() {
+        _error = 'Backend error';
+      });
     }
-
-    // Manuplate the response to get the predictions
-    Map faceData = json.decode(response.body);
-    List<Map> faceDataTemp = [];
-    faceData.forEach((key, value) {
-      faceDataTemp.add(value);
-    });
-    setState(() {
-      _faceDataDisplay = faceDataTemp;
-      _image = io.File(imageFile.path);
-    });
-    ////////////////////////////////////////////////
   }
 
   @override
@@ -107,7 +113,9 @@ class _MLTask2State extends State<MLTask2> {
                   ),
                 ),
               ),
-              SizedBox(height: factorHeight * 10.0),
+              SizedBox(
+                height: factorHeight * 10.0,
+              ),
               Expanded(
                 flex: 8,
                 child: Container(
