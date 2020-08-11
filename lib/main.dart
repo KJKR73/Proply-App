@@ -10,11 +10,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   // runApp(MyApp());
-  runApp(
-    DevicePreview(
-      builder: (context) => MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +21,6 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       catchError: (context, error) => null,
       child: MaterialApp(
-        builder: DevicePreview.appBuilder,
         //initialRoute: '/',
         routes: {
           '/task1': (context) => MLTask1(),

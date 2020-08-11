@@ -64,116 +64,149 @@ class _MLTask2State extends State<MLTask2> {
   @override
   Widget build(BuildContext context) {
     dynamic queryData = MediaQuery.of(context);
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    var factorHeight = 1 / 740.0 * height;
+    var factorWidth = 1 / 360.0 * width;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[900],
-        child: Icon(
-          Icons.image,
-          color: Colors.white,
+      floatingActionButton: Container(
+        height: factorHeight * 60,
+        width: factorWidth * 60,
+        child: FloatingActionButton(
+          backgroundColor: Colors.blue[500],
+          child: Icon(
+            Icons.image,
+            color: Colors.black,
+          ),
+          onPressed: () async {
+            await _getImageAndFaces();
+          },
         ),
-        onPressed: () async {
-          await _getImageAndFaces();
-        },
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           child: Column(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(20.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(0.0),
-                  color: Colors.blue[900],
-                ),
-                child: Text(
-                  'Click on the button below to see the results',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: EdgeInsets.all(factorHeight * 20.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[900],
                   ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    _image == null
-                        ? emptyImage(
-                            queryData.size.height, queryData.size.width)
-                        : displayPictureTask2(
-                            this._image,
-                            queryData.size.height,
-                            queryData.size.width,
-                          )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              ButtonTheme(
-                height: 60.0,
-                minWidth: 300.0,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onPressed: _image == null
-                      ? null
-                      : () {
-                          Navigator.pushNamed(
-                            context,
-                            '/summary',
-                            arguments: {
-                              'face_data': _faceDataDisplay,
-                            },
-                          );
-                        },
-                  color: Colors.blue,
                   child: Text(
-                    'Click Here',
+                    'Click on the button below to see the results',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 17.0,
+                      fontSize: factorHeight * 24.0,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                ),
+              ),
+              SizedBox(height: factorHeight * 10.0),
+              Expanded(
+                flex: 8,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: factorHeight * 20,
+                    vertical: factorWidth * 20,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      _image == null
+                          ? emptyImage(queryData.size.height,
+                              queryData.size.width, factorHeight, factorWidth)
+                          : displayPictureTask2(
+                              this._image,
+                              queryData.size.height,
+                              queryData.size.width,
+                              factorHeight,
+                              factorWidth,
+                            )
+                    ],
                   ),
                 ),
               ),
               SizedBox(
-                height: 70,
+                height: factorHeight * 10.0,
+              ),
+              Expanded(
+                flex: 2,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text(
-                    _image == null ? 'Step 2 click button above' : "",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.blue[900],
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
+                  padding: EdgeInsets.only(bottom: 35),
+                  child: ButtonTheme(
+                    height: factorHeight * 60.0,
+                    minWidth: factorWidth * 250.0,
+                    disabledColor: Colors.blue[100],
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(factorHeight * 10.0),
+                      ),
+                      onPressed: _image == null
+                          ? null
+                          : () {
+                              Navigator.pushNamed(
+                                context,
+                                '/summary',
+                                arguments: {
+                                  'face_data': _faceDataDisplay,
+                                },
+                              );
+                            },
+                      color: Colors.blue,
+                      child: Text(
+                        'Click Here',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: factorHeight * 17.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-              Align(
-                child: Text(
-                  _image == null ? 'Step 1 click a photo from here --->' : '',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    color: Colors.blue[900],
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: factorHeight * 35,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 0),
+                    child: Text(
+                      _image == null ? 'Step 2 click button above' : "",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: factorHeight * 16.0,
+                        color: Colors.blue[500],
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: factorHeight * 30),
+                  child: Align(
+                    child: Text(
+                      _image == null
+                          ? 'Step 1 click a photo from here          '
+                          : '',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: factorHeight * 16.0,
+                        color: Colors.blue[500],
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
                   ),
                 ),
               )

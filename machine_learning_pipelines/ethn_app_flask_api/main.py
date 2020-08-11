@@ -7,6 +7,7 @@ import base64
 import mtcnn
 from PIL import Image
 from io import BytesIO
+from pydub import AudioSegment 
 import gc
 
 app = Flask(__name__)

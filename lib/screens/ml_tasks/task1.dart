@@ -83,103 +83,132 @@ class _MLTask1State extends State<MLTask1> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    var factorHeight = 1 / 740.0 * height;
+    var factorWidth = 1 / 360.0 * width;
     Widget messageToDisplay = Text(
       (_image == null) || (_humanCheck == "0")
           ? 'Your message will be displayed here'
           : tags[this.index].toString(),
       style: TextStyle(
         color: Colors.blue[900],
-        fontSize: 20.0,
+        fontSize: factorHeight * 20.0,
         fontWeight: FontWeight.bold,
       ),
     );
     queryData = MediaQuery.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           child: Column(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(20.0),
-                decoration: BoxDecoration(
-                  color: Colors.blue[900],
-                ),
-                child: Text(
-                  'Click on the button below to see the message',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: EdgeInsets.all(
+                    factorHeight * 20.0,
                   ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    _image == null
-                        ? emptyImage(
-                            queryData.size.height, queryData.size.width)
-                        : displayPicture(
-                            tags[this.index],
-                            this._image,
-                            queryData.size.height,
-                            queryData.size.width,
-                            _humanCheck),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                child: (_humanCheck == "0") && (_image == null)
-                    ? messageToDisplay
-                    : Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 0,
-                        ),
-                        child: Text(
-                          'Man you dumbass bitch you think you can fool me',
-                          style: TextStyle(
-                            color: Colors.blue[900],
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ButtonTheme(
-                height: 60.0,
-                minWidth: 300.0,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[900],
                   ),
-                  onPressed: _getImage,
-                  color: Colors.blue,
                   child: Text(
-                    'Click Here',
+                    'Click on the button below to see the message',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 17.0,
+                      fontSize: factorHeight * 24.0,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
                     ),
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: factorHeight * 10.0),
+              Expanded(
+                flex: 8,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: factorHeight * 20,
+                    vertical: factorWidth * 20,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      _image == null
+                          ? emptyImage(
+                              queryData.size.height,
+                              queryData.size.width,
+                              factorHeight,
+                              factorWidth,
+                            )
+                          : displayPicture(
+                              tags[this.index],
+                              this._image,
+                              queryData.size.height,
+                              queryData.size.width,
+                              _humanCheck),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: factorHeight * 10.0,
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: (_humanCheck == "0") && (_image == null)
+                      ? messageToDisplay
+                      : Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: factorWidth * 20,
+                            vertical: 0,
+                          ),
+                          child: Text(
+                            'Man you dumbass bitch you think you can fool me',
+                            style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: factorHeight * 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                ),
+              ),
+              SizedBox(
+                height: factorHeight * 20,
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: factorHeight * 50,
+                  ),
+                  child: ButtonTheme(
+                    height: factorHeight * 60.0,
+                    minWidth: factorWidth * 250.0,
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          factorHeight * 10.0,
+                        ),
+                      ),
+                      onPressed: _getImage,
+                      color: Colors.blue,
+                      child: Text(
+                        'Click Here',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: factorHeight * 17.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

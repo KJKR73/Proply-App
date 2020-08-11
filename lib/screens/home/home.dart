@@ -9,144 +9,165 @@ class Home extends StatelessWidget {
   MediaQueryData queryData;
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    var factorHeight = 1 / 740.0 * height;
+    var factorWidth = 1 / 360.0 * width;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       drawer: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.white,
+          canvasColor: Colors.black,
         ),
-        child: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 30.0,
-                        child: ClipOval(
-                          child: Image.asset('assets/avatar.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Color(0xFFFC5A58),
+        child: Container(
+          height: height,
+          width: factorWidth * 300,
+          child: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  padding: EdgeInsets.fromLTRB(0, factorHeight * 25, 0, 0),
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 5,
+                          child: CircleAvatar(
+                            radius: factorHeight * 30.0,
+                            child: ClipOval(
+                              child: Image.asset('assets/avatar.png'),
+                            ),
                           ),
                         ),
-                        height: 15.0,
-                      ),
-                      Text(
-                        '$username',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.bold,
+                        SizedBox(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                            ),
+                          ),
+                          height: factorHeight * 15.0,
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            '$username',
+                            style: TextStyle(
+                              color: Colors.blue[700],
+                              fontSize: factorHeight * 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: factorHeight * 10,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.blue[900],
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.blue[900],
-                  ),
+                _createItemsSlider(
+                  'Go To Task1',
+                  () => {Navigator.pushNamed(context, '/task1')},
+                  Icons.track_changes,
+                  factorHeight,
+                  factorWidth,
                 ),
-                height: 5.0,
-              ),
-              _createItemsSlider(
-                'Go To Task1',
-                () => {Navigator.pushNamed(context, '/task1')},
-                Icons.track_changes,
-              ),
-              SizedBox(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.blue[900],
+                SizedBox(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                    ),
                   ),
+                  height: factorHeight * 5.0,
                 ),
-                height: 5.0,
-              ),
-              _createItemsSlider(
-                'Go To Task2',
-                () => {Navigator.pushNamed(context, '/task2')},
-                Icons.track_changes,
-              ),
-              SizedBox(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.blue[900],
+                _createItemsSlider(
+                  'Go To Task2',
+                  () => {Navigator.pushNamed(context, '/task2')},
+                  Icons.track_changes,
+                  factorHeight,
+                  factorWidth,
+                ),
+                SizedBox(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                    ),
                   ),
+                  height: factorHeight * 5.0,
                 ),
-                height: 5.0,
-              ),
-              _createItemsSlider(
-                'Log Out',
-                () async {
-                  await _auth.signOut();
-                },
-                Icons.exit_to_app,
-              ),
-              SizedBox(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.blue[900],
+                _createItemsSlider(
+                  'Log Out',
+                  () async {
+                    await _auth.signOut();
+                  },
+                  Icons.exit_to_app,
+                  factorHeight,
+                  factorWidth,
+                ),
+                SizedBox(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
                   ),
+                  height: factorHeight * 1.0,
                 ),
-                height: 5.0,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            // color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0.0),
-            child: Column(
-              children: <Widget>[
-                Container(
+        child: Container(
+          height: height,
+          width: width,
+          decoration: BoxDecoration(
+            color: Colors.black,
+          ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
                   color: Colors.blue[900],
                   child: ListTile(
-                    contentPadding: EdgeInsets.all(20),
+                    contentPadding: EdgeInsets.all(factorHeight * 20),
                     title: Text(
                       'Home',
                       style: TextStyle(
-                        fontSize: 32.0,
-                        color: Colors.white,
+                        fontSize: factorHeight * 36.0,
+                        color: Colors.black,
                         fontFamily: 'Pacifico',
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2.0,
                       ),
                     ),
                     trailing: CircleAvatar(
-                      radius: 24.0,
+                      radius: factorHeight * 28.0,
+                      backgroundColor: Colors.black,
                       child: ClipOval(
                         child: Image.asset('assets/avatar.png'),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                Container(
+              ),
+              SizedBox(
+                height: factorHeight * 30.0,
+              ),
+              Expanded(
+                flex: 5,
+                child: Container(
+                  color: Colors.black,
                   child: Column(
                     children: <Widget>[
                       Padding(
@@ -157,16 +178,16 @@ class Home extends StatelessWidget {
                               Icon(
                                 Icons.track_changes,
                                 color: Colors.blue[900],
-                                size: 34,
+                                size: factorHeight * 34,
                               ),
                               SizedBox(
-                                width: 10,
+                                width: factorHeight * 10,
                               ),
                               Text(
                                 '$appUseInfo',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize: factorHeight * 22.0,
                                   color: Colors.blue[900],
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 2.0,
@@ -177,41 +198,53 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 5.0,
+                        height: factorHeight * 5.0,
                       ),
-                      _createItems(
-                        '1',
-                        () => {Navigator.pushNamed(context, '/task1')},
-                        Icons.computer,
-                        'This task checks the presence of faces and give you a good text in return',
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _createItems(
-                        '2',
-                        () => {Navigator.pushNamed(context, '/task2')},
-                        Icons.computer,
-                        'This task check the faces and outputs the face, race, age, and ethnicity of the persons in the picture',
+                      Expanded(
+                        flex: 1,
+                        child: _createItems(
+                            '1',
+                            () => {Navigator.pushNamed(context, '/task1')},
+                            Icons.computer,
+                            'This task checks the presence of faces and give you a good text in return',
+                            factorHeight,
+                            factorWidth),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: factorHeight * 30.0,
                       ),
-                      Text(
-                        'Swipe left for more --->',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.blue[900],
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
+                      Expanded(
+                        flex: 1,
+                        child: _createItems(
+                          '2',
+                          () => {Navigator.pushNamed(context, '/task2')},
+                          Icons.computer,
+                          'This task check the faces and outputs the face, race, age, and ethnicity of the persons in the picture',
+                          factorHeight,
+                          factorWidth,
+                        ),
+                      ),
+                      SizedBox(
+                        height: factorHeight * 30,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          'Swipe left for more --->',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: factorHeight * 16.0,
+                            color: Colors.blue[900],
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.0,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -219,23 +252,31 @@ class Home extends StatelessWidget {
   }
 }
 
-Widget _createItems(String text, dynamic ontap, IconData icon, String label) {
+Widget _createItems(
+  String text,
+  dynamic ontap,
+  IconData icon,
+  String label,
+  var factorHeight,
+  var factorWidth,
+) {
   return Padding(
-    padding: EdgeInsets.only(left: 10, right: 20),
+    padding: EdgeInsets.only(left: factorHeight * 10, right: factorWidth * 20),
     child: Container(
+      padding: EdgeInsets.all(0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(factorHeight * 15),
       ),
       child: ButtonTheme(
         padding: EdgeInsets.all(0),
         child: RaisedButton(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+            borderRadius: BorderRadius.circular(factorHeight * 15.0),
           ),
           onPressed: ontap,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(factorHeight * 15),
               color: Colors.blue[100],
             ),
             child: Row(
@@ -243,10 +284,10 @@ Widget _createItems(String text, dynamic ontap, IconData icon, String label) {
                 Padding(
                   padding: EdgeInsets.all(5),
                   child: Container(
-                    height: 150,
-                    width: 130,
+                    height: factorHeight * 150,
+                    width: factorWidth * 130,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(factorHeight * 15),
                       image: DecorationImage(
                         image: AssetImage('assets/test2.jpg'),
                         fit: BoxFit.cover,
@@ -257,7 +298,7 @@ Widget _createItems(String text, dynamic ontap, IconData icon, String label) {
                         '$text',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 70.0,
+                          fontSize: factorHeight * 70.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -265,7 +306,7 @@ Widget _createItems(String text, dynamic ontap, IconData icon, String label) {
                   ),
                 ),
                 SizedBox(
-                  width: 10,
+                  width: factorHeight * 10,
                 ),
                 Expanded(
                   child: Text(
@@ -273,13 +314,13 @@ Widget _createItems(String text, dynamic ontap, IconData icon, String label) {
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 17.0,
+                      fontSize: factorHeight * 17.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 SizedBox(
-                  width: 10,
+                  width: factorHeight * 10,
                 ),
               ],
             ),
@@ -290,24 +331,35 @@ Widget _createItems(String text, dynamic ontap, IconData icon, String label) {
   );
 }
 
-Widget _createItemsSlider(String text, dynamic ontap, IconData icon) {
+Widget _createItemsSlider(
+  String text,
+  dynamic ontap,
+  IconData icon,
+  var factorHeight,
+  var factorWidth,
+) {
   return Container(
-    color: Colors.white,
+    color: Colors.black,
     child: ListTile(
       title: Row(
         children: <Widget>[
           Icon(
             icon,
-            size: 35.0,
-            color: Colors.blue[900],
+            size: factorHeight * 35.0,
+            color: Colors.blue[700],
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(40, 5, 5, 5),
+            padding: EdgeInsets.fromLTRB(
+              factorHeight * 40,
+              factorHeight * 5,
+              factorHeight * 5,
+              factorHeight * 5,
+            ),
             child: Text(
               text,
               style: TextStyle(
-                color: Colors.blue[900],
-                fontSize: 17.0,
+                color: Colors.blue[700],
+                fontSize: factorHeight * 17.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
