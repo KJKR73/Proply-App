@@ -75,8 +75,9 @@ class _RegisterState extends State<Register> {
                               validator: (val) =>
                                   val.isEmpty ? 'Enter a valid Email' : null,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: factor * 18.0,
+                                fontWeight: FontWeight.bold,
                               ),
                               decoration: inputDecorationForm(factor)
                                   .copyWith(hintText: 'Enter Email'),
@@ -102,9 +103,9 @@ class _RegisterState extends State<Register> {
                                   ? 'Invalid or empty password'
                                   : null,
                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: factor * 18.0,
-                              ),
+                                  color: Colors.white,
+                                  fontSize: factor * 18.0,
+                                  fontWeight: FontWeight.bold),
                               decoration: inputDecorationForm(factor)
                                   .copyWith(hintText: 'Enter Password'),
                               onChanged: (val) {

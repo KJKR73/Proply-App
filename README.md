@@ -1,16 +1,7 @@
-# ethinicty_recognition_app
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Ethn-APP
+An app made using Flutter and Python Backend that uses Deep-Leaning to predict the age, race, and gender of the people that can be clicked in the app using the camera.
+***
+> How to use: 
+1. Install the app and log in to the app.
+2. Click the MLTask 2 and click the photo as instructed in the hints on the app page.
+3. Do not constraint the app to just a single person. You can click pictures of many people at one and the app will tell the details of each person individually.

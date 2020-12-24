@@ -4,6 +4,7 @@ import 'package:ethinicty_recognition_app/shared/constant.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' as io;
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -63,6 +64,15 @@ class _MLTask2State extends State<MLTask2> {
     } catch (err) {
       setState(() {
         _error = 'Backend error';
+        Fluttertoast.showToast(
+          msg: "Error: Photo not found or face not detected in photo",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
       });
     }
   }

@@ -28,6 +28,7 @@ class _SignInState extends State<SignIn> {
     var width = MediaQuery.of(context).size.width;
     var factor = 1 / 740.0 * height;
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
@@ -76,8 +77,9 @@ class _SignInState extends State<SignIn> {
                               validator: (val) =>
                                   val.isEmpty ? 'Enter a valid Email' : null,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: factor * 18.0,
+                                fontWeight: FontWeight.bold,
                               ),
                               decoration: inputDecorationForm(factor)
                                   .copyWith(hintText: 'Enter Email'),
@@ -103,8 +105,9 @@ class _SignInState extends State<SignIn> {
                                   ? 'Invalid or empty password'
                                   : null,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: factor * 18.0,
+                                fontWeight: FontWeight.bold,
                               ),
                               decoration: inputDecorationForm(factor)
                                   .copyWith(hintText: 'Enter Password'),

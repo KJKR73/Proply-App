@@ -5,6 +5,7 @@ import 'package:ethinicty_recognition_app/shared/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MLTask1 extends StatefulWidget {
   @override
@@ -48,37 +49,49 @@ class _MLTask1State extends State<MLTask1> {
   var randIndex = new Random();
   final picker = ImagePicker();
   Future _getImage() async {
-    dynamic imageFile = await picker.getImage(
-      source: ImageSource.camera,
-      maxHeight: 500,
-      maxWidth: 500,
-    );
-    final imageBytes = File(imageFile.path).readAsBytesSync();
-    String base64Image = base64Encode(imageBytes);
-    /////////////////////////////////////////////////
-    var url = 'http://52.66.206.153:8080/humancheck';
-    Map data = {
-      'query': base64Image,
-    };
-    var body = json.encode(data);
-    var response = await post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: body,
-    );
-    // Manuplate the response to get the predictions
-    Map faceData = json.decode(response.body);
+    try {
+      dynamic imageFile = await picker.getImage(
+        source: ImageSource.camera,
+        maxHeight: 500,
+        maxWidth: 500,
+      );
+      final imageBytes = File(imageFile.path).readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+      /////////////////////////////////////////////////
+      var url = 'http://52.66.206.153:8080/humancheck';
+      Map data = {
+        'query': base64Image,
+      };
+      var body = json.encode(data);
+      var response = await post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+      // Manuplate the response to get the predictions
+      Map faceData = json.decode(response.body);
 
-    if (response.statusCode != 200) {
-      print('Some Error at the backend occured please check you code again');
+      if (response.statusCode != 200) {
+        print('Some Error at the backend occured please check you code again');
+      }
+
+      setState(() {
+        _humanCheck = faceData['response'].toString();
+        _image = File(imageFile.path);
+        index = randIndex.nextInt(tags.length - 1);
+        reset = true;
+      });
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Error: Photo not found or face not detected in photo",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
     }
-
-    setState(() {
-      _humanCheck = faceData['response'].toString();
-      _image = File(imageFile.path);
-      index = randIndex.nextInt(tags.length - 1);
-      reset = true;
-    });
   }
 
   @override
@@ -93,8 +106,8 @@ class _MLTask1State extends State<MLTask1> {
         vertical: 0,
       ),
       child: Text(
-        (_image == null) || (_humanCheck == "0")
-            ? 'Your message will be displayed here'
+        (_image == null)
+            ? 'Click on the button below to see the message'
             : tags[this.index].toString(),
         textAlign: TextAlign.center,
         style: TextStyle(
@@ -177,7 +190,7 @@ class _MLTask1State extends State<MLTask1> {
                             vertical: 0,
                           ),
                           child: Text(
-                            'Man you dumbass bitch you think you can fool me',
+                            'Your message will be displayed here',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.blue[900],
